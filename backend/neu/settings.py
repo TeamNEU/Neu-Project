@@ -47,6 +47,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'neu.urls'
@@ -120,3 +122,30 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+from mongoengine import connect
+
+connect(
+    db='neu_db',         # Name of your MongoDB database
+    host='localhost',    # Address of MongoDB server
+    port=27017           # Default MongoDB port
+)
+
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    # Third-party apps
+    'rest_framework',     # Required for @api_view, Response
+    'corsheaders',        # Required if frontend is running on different port
+
+    # Your app
+    'neu_api',
+]
+
+CORS_ALLOW_ALL_ORIGINS = True  # For development only. Use whitelist in production.
+
